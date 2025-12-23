@@ -1,0 +1,1 @@
+# salohy-typing-speed-test-app
