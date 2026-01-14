@@ -1,0 +1,2 @@
+Check if a setInterval is running before starting one:
+	solution: I initialise the duration variable outside of the fonction as null so I can check if it's running befor starting it.
