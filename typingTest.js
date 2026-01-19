@@ -18,9 +18,11 @@ let actualIndex = 0; //Index of prumpt, letter to be changed.
 let trueType = 0;
 let wrongType = 0;
 let completeAcensor = 0;
-let wpmCounter =0;
+let wpmCounterSec = 0;
+let wpmCounterMin = 0;
 let wpm = 0;
 let typingDuration = null;
+let actualButDifficulty = '';
 
 
 textContentScreen.innerHTML = textT
@@ -32,10 +34,9 @@ const eachSpan = textContentScreen.querySelectorAll('span');
 document.addEventListener('click', () => inputForText.focus());
 //Function for comparing letter 
 const comparingLetter = () => {
-    console.log('comparingLetter')
     const typedChar = inputForText.value.slice(-1);
     const currentLetter = eachSpan[actualIndex];
-
+    
     if(!currentLetter) return;//Gard clause to privent all error
 
     currentLetter.classList.remove('active');//Remove cursor from each typed letter (index)
@@ -69,42 +70,74 @@ const comparingLetter = () => {
 }
 
 //TIMER
-const initialisationTimer = () => {
-    if(wpmCounter>0){
-        wpmCounter = 0;
-    }
-
+const initialisationTimer = (self) => {
     if(typingDuration !== null){
-        timeValue.textContent = '0:0'+wpmCounter;
+        timeValue.textContent = ' 0:0'+wpmCounterSec;
         clearInterval(typingDuration);
         typingDuration = null;
     }
-}
-
-const timerForStartAndHard = () => {//Azo heverina ny mampiditra ito any amin'ny fonction: initialisationTimer()
+    timeValue.textContent = " 0:00";
     typingDuration = setInterval(()=>{
-        wpmCounter++;
-        if(wpmCounter<10){
-            timeValue.textContent = '0:0'+wpmCounter;
-        }else{
-            timeValue.textContent = '0:'+wpmCounter;
+        wpmCounterSec++;
+
+        if(wpmCounterSec<10){
+            timeValue.textContent = ' '+wpmCounterMin+':0'+wpmCounterSec;
+        }else if(wpmCounterSec>=10){
+            timeValue.textContent = ' '+wpmCounterMin+':'+wpmCounterSec;
         }
         
-        if(wpmCounter == 60){//This should go to the hard button
+        if(wpmCounterSec == 59 && self.target.textContent==='Medium' || wpmCounterSec == 59 && self.target.textContent==='Easy'){
+            wpmCounterMin++;
+            wpmCounterSec = -1;
+            console.log(wpmCounterMin)
+        }
+        
+        if(self.target.textContent==='Hard' && wpmCounterSec===60 || self.target.textContent==='Start Typing Test' && wpmCounterSec==60){//This should go to the hard button
             clearInterval(typingDuration);
             typingDuration = null;
             personalBestValue.textContent = wpm+' WPM';//Value for DATA BASE (Change if it go beyond the last value)
             inputForText.style.display = 'none';
             eachSpan[actualIndex].classList.remove('active');//Remove cursor because 60s is completed
+            timeValue.textContent = wpmCounterMin+':60';
+            console.log("Hard "+actualIndex)
+        }else if(self.target.textContent==='Medium' && wpmCounterMin===3){//This should go to the hard button
+            clearInterval(typingDuration);
+            typingDuration = null;
+            personalBestValue.textContent = wpm+' WPM';//Value for DATA BASE (Change if it go beyond the last value)
+            inputForText.style.display = 'none';
+            eachSpan[actualIndex].classList.remove('active');//Remove cursor because 60s is completed
+            timeValue.textContent = ' '+wpmCounterMin+':00';
+            console.log("Medium "+actualIndex)
+        }else if(self.target.textContent==='Easy' && wpmCounterMin===5){//This should go to the hard button
+            clearInterval(typingDuration);
+            typingDuration = null;
+            personalBestValue.textContent = wpm+' WPM';//Value for DATA BASE (Change if it go beyond the last value)
+            inputForText.style.display = 'none';
+            eachSpan[actualIndex].classList.remove('active');//Remove cursor because 60s is completed
+            timeValue.textContent = ' '+wpmCounterMin+':00';
+            console.log("Hard "+actualIndex)
         }
+
     }, 1000)
+
+    if(wpmCounterSec>0){
+        wpmCounterSec = 0;
+    }
 }
+
 //The button easy, medium and hard
 //All three button need to change behavior itself
 const initialisationAction = (self) => {
+    document.addEventListener('click', () => inputForText.focus());
     if(self.target.classList[1] === 'difficulty-but-inactive'){
         self.target.classList.remove('difficulty-but-inactive');
         self.target.classList.add('difficulty-but-active');
+    }
+
+    console.log()
+
+    if(wpmCounterMin > 0){
+        wpmCounterMin = 0;
     }
 
     eachSpan[actualIndex].classList.remove('active');//Remove cursor from the last typing.
@@ -120,14 +153,25 @@ const initialisationAction = (self) => {
     if(actualIndex > 0){
         actualIndex = 0;
     }
+
+    if(inputForText.style.display == 'none'){
+        console.log('Io fa none');
+        inputForText.style.display = 'block';
+    }
 }
 
 //Behavior of Easy Button
-const easyButAction = (e) => {
-    //Start of changing color if clicked
-    e.target.classList.add('difficulty-but-active');
-    initialisationTimer();
+const easyButAction = (e) => {    
+    initialisationTimer(e);
     initialisationAction(e);
+    actualButDifficulty = e.target.textContent;
+    if(wpmCounterMin>0){
+        wpmCounterMin = 0;
+    }
+    console.log(actualButDifficulty);
+
+    //Change the color of button selected
+    e.target.classList.add('difficulty-but-active');
     if(e.target.textContent === "Easy" && mediumBut.classList[1] === "difficulty-but-active" || e.target.textContent === "Easy" && hardBut.classList[1] === "difficulty-but-active"){
         mediumBut.classList.remove('difficulty-but-active');
         mediumBut.classList.add('difficulty-but-inactive');
@@ -139,10 +183,16 @@ const easyButAction = (e) => {
 
 //Behavior of Medium Button
 const mediumButAction = (e) => {
-    //Start of changing color if clicked
-    e.target.classList.add('difficulty-but-active');
-    initialisationTimer();
+    initialisationTimer(e);
     initialisationAction(e);
+    actualButDifficulty = e.target.textContent;
+    if(wpmCounterMin>0){
+        wpmCounterMin = 0;
+    }
+    console.log(actualButDifficulty);
+
+    //Change the color of button selected
+    e.target.classList.add('difficulty-but-active');
     if(e.target.textContent === "Medium" && mediumBut.classList[1] === "difficulty-but-active" || e.target.textContent === "Medium" && hardBut.classList[1] === "difficulty-but-active"){
         easyBut.classList.remove('difficulty-but-active');
         easyBut.classList.add('difficulty-but-inactive');
@@ -154,19 +204,23 @@ const mediumButAction = (e) => {
 
 //Behavior of hard Button
 const hardButAction = (e) => {
-    //Start of changing color if clicked
-    e.target.classList.add('difficulty-but-active');
-    initialisationTimer();
+    initialisationTimer(e);
     initialisationAction(e);
+    actualButDifficulty = e.target.textContent;
+    if(wpmCounterMin>0){
+        wpmCounterMin = 0;
+    }
+    console.log(actualButDifficulty);
+
+    //Change the color of button selected
+    e.target.classList.add('difficulty-but-active');
     if(e.target.textContent === "Hard" && mediumBut.classList[1] === "difficulty-but-active" || e.target.textContent === "Hard" && hardBut.classList[1] === "difficulty-but-active"){
         easyBut.classList.remove('difficulty-but-active');
         easyBut.classList.add('difficulty-but-inactive');
         mediumBut.classList.remove('difficulty-but-active');
         mediumBut.classList.add('difficulty-but-inactive');
     }//End of changing color
-    //document.addEventListener('click', () => inputForText.focus());
     comparingLetter();
-    timerForStartAndHard();
 }
 
 easyBut.addEventListener('click', easyButAction);
@@ -188,13 +242,18 @@ eachSpan[0].classList.add('active');
 
 //For the button start
 startBut.addEventListener('click', (e) => {
-    initialisationTimer();
+    initialisationTimer(e);
     textContentScreen.style.filter = 'blur(0)';
     e.target.style.display = 'none';
     startButContainer.style.display = 'none';
     restartBut.style.display = 'flex';
-    timeValue.textContent = "0:00";
+    //timeValue.textContent = "0:00";
 
     comparingLetter();
-    timerForStartAndHard();
 })
+
+//For resturt button
+//restartBut.addEventListener('click', ()=>{
+ //   comparingLetter();
+  //  initialisationTimer(actualButDifficulty);
+//})
