@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="description" content="Typing speed test">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
@@ -14,75 +15,84 @@
 <!--Main container-->
   <div id="main-container">
     <!--Heading-->
-    <div id="heading">
-      <div id="logo">
-        <img src="assets/images/logo-small.svg" alt="logo typing" class="heading-img">
-        <div id="logo-label">
-          <span id="logo-label-one">Typing Speed Test</span><br>
-          <span id="logo-label-two">Type as fast as you can in 60 seconds</span>
-        </div>
-      </div>
-      <div id="personal-best">
-        <img src="assets/images/icon-personal-best.svg" alt="Icon personal-best" class="heading-img"><div id="personal-best-for-desktop">Personal best: </div><div id="personal-best-for-mobil">Best: </div><div id="personal-best-value"></div>
-      </div>
-    </div>
-
-    <!--Feature containr-->
-    <div id="feature-container">
-      <div id="wpm-accuracy-time-value-container">
-        <div id="wpm-value-container">
-          WPM: <div id="wpm-value">0</div>
-        </div>
-        <div id="accuracy-value-container">
-          Accuracy: <div id="accuracy-value">100%</div>
-        </div>
-        <div id="time-value-container">
-          Time: <div id="time-value">0:00</div>
-        </div>
-      </div>
-      <div id="difficulty-mode-container">
-        <div id="difficulty-container">
-          Difficulty: 
-          <button type="button" class="feature-but" id="easy-but">Easy</button>
-          <button type="button" class="feature-but" id="medium-but">Medium</button>
-          <button type="button" class="feature-but difficulty-but-active" id="hard-but">Hard</button>
-        </div>
-        <select name="difficulty" id="difficulty-for-mobil">
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard" selected>Hard</option>
-        </select>
-        <div id="mode-container">
-          <div>
-            Mode: 
-            <button type="button" class="feature-but" id="timed-but">Timed (60s)</button>
-            <button type="button" class="feature-but" id="passage-but">Passage</button>
+    <header>
+      <div id="heading">
+        <div id="logo">
+          <img src="assets/images/logo-small.svg" alt="logo typing" class="heading-img">
+          <div id="logo-label">
+            <span id="logo-label-one">Typing Speed Test</span><br>
+            <span id="logo-label-two">Type as fast as you can in 60 seconds</span>
           </div>
         </div>
-        <select name="mode" id="mode-for-mobil">
+        <div id="personal-best">
+          <img src="assets/images/icon-personal-best.svg" alt="Icon personal-best" class="heading-img"><div id="personal-best-for-desktop">Personal best: </div><div id="personal-best-for-mobil">Best: </div><div id="personal-best-value"></div>
+        </div>
+      </div>
+    </header>
+    
+
+    <!--Feature containr-->
+    <nav>
+      <div id="feature-container">
+      <div id="wpm-accuracy-time-value-container">
+          <div id="wpm-value-container">
+            WPM: <div id="wpm-value">0</div>
+          </div>
+          <div id="accuracy-value-container">
+            Accuracy: <div id="accuracy-value">100%</div>
+          </div>
+          <div id="time-value-container">
+            Time: <div id="time-value">0:00</div>
+          </div>
+      </div>
+      <div id="difficulty-mode-container">
+          <div id="difficulty-container">
+            Difficulty: 
+            <button type="button" class="feature-but" id="easy-but">Easy</button>
+            <button type="button" class="feature-but" id="medium-but">Medium</button>
+            <button type="button" class="feature-but difficulty-but-active" id="hard-but">Hard</button>
+          </div>
+          <select name="difficulty" id="difficulty-for-mobil">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard" selected>Hard</option>
+          </select>
+          <div id="mode-container">
+            <div>
+              Mode: 
+              <button type="button" class="feature-but" id="timed-but">Timed (60s)</button>
+              <button type="button" class="feature-but" id="passage-but">Passage</button>
+          </div>
+          </div>
+          <select name="mode" id="mode-for-mobil">
             <option value="timed" selected>Timed(60s)</option>
             <option value="passage">Passage</option>
           </select>
       </div>
-    </div>
+      </div>
+    </nav>
 
     <!--Text containre-->
-    <div id="text-container">
-      <div id="text-content"></div>
-      <input type="text" autocomplete="off" id="input-for-test" autofocus>
-      <div id="start-but-container">
-        <button type="button" id="start-but">Start Typing Test</button>
-        Or click the text and start typing
+    <main>
+      <div id="text-container">
+        <div id="text-content"></div>
+        <input type="text" autocomplete="off" id="input-for-test" autofocus>
+        <div id="start-but-container">
+          <button type="button" id="start-but">Start Typing Test</button>
+          Or click the text and start typing
+        </div>
       </div>
-    </div>
-    <div>
-      <button type="button" id="restart-but">Restart Test <img src="assets/images/icon-restart.svg" alt=""></button>
-    </div>
- 
-    <div class="attribution">
-      Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
-      Coded by <a href="#">Salohy</a>.
-    </div>
+      <div>
+        <button type="button" id="restart-but">Restart Test <img src="assets/images/icon-restart.svg" alt=""></button>
+      </div>
+    </main>
+    
+    <footer>
+      <div class="attribution">
+        Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
+        Coded by <a href="#">Salohy</a>.
+      </div>
+    </footer>
   </div>
   
   <script src="typingTest.js"></script>
