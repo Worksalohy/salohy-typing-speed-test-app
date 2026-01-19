@@ -133,8 +133,11 @@ const initialisationAction = (self) => {
         self.target.classList.remove('difficulty-but-inactive');
         self.target.classList.add('difficulty-but-active');
     }
-
-    console.log()
+    let showed = [];
+    for(let i=0; i<eachSpan.length; i++){
+        showed.push(eachSpan[i].textContent);
+    }
+    console.log(showed+' '+actualIndex);
 
     if(wpmCounterMin > 0){
         wpmCounterMin = 0;
@@ -155,7 +158,6 @@ const initialisationAction = (self) => {
     }
 
     if(inputForText.style.display == 'none'){
-        console.log('Io fa none');
         inputForText.style.display = 'block';
     }
 }
